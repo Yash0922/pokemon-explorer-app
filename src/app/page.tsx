@@ -1,101 +1,150 @@
-import Image from "next/image";
+'use client';
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Navbar from '../components/Navbar';
+import SearchBar from '../components/SearchBar';
+import PokemonGrid from '../components/PokemonGrid';
+import Pagination from '../components/Pagination';
+import Loading from '../components/Loading';
+import Error from '../components/Error';
+import { fetchPokemons, searchPokemons } from '../services/pokemonService';
+import { Pokemon } from '../types/pokemon';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  const initialPage = parseInt(searchParams.get('page') || '1');
+  const initialSearch = searchParams.get('search') || '';
+  
+  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>(initialSearch);
+  const [filteredPokemons, setFilteredPokemons] = useState<Pokemon[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(initialPage);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const ITEMS_PER_PAGE = 20;
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+  useEffect(() => {
+    const loadPokemons = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+        const response = await fetchPokemons(ITEMS_PER_PAGE, offset);
+        
+        setPokemons(response.results);
+        setTotalPages(Math.ceil(response.count / ITEMS_PER_PAGE));
+        
+        // Update URL with page parameter if no search is active
+        if (!searchQuery) {
+          const params = new URLSearchParams();
+          if (currentPage !== 1) params.set('page', currentPage.toString());
+          const newUrl = params.toString() ? `/?${params.toString()}` : '/';
+          router.push(newUrl);
+        }
+      } catch (err) {
+        setError('Failed to load Pokémon data. Please try again later.');
+        console.error('Error loading pokemons:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (!searchQuery) {
+      loadPokemons();
+    }
+  }, [currentPage, searchQuery, router]);
+
+  useEffect(() => {
+    const handleSearch = async () => {
+      if (!searchQuery) {
+        setFilteredPokemons([]);
+        return;
+      }
+
+      try {
+        setIsLoading(true);
+        setError(null);
+        const response = await searchPokemons(searchQuery);
+        setFilteredPokemons(response.results);
+        setTotalPages(1); // No pagination for search results
+        
+        // Update URL with search parameter
+        const params = new URLSearchParams();
+        params.set('search', searchQuery);
+        if (currentPage !== 1) params.set('page', currentPage.toString());
+        router.push(`/?${params.toString()}`);
+      } catch (err) {
+        setError('Failed to search Pokémon. Please try again later.');
+        console.error('Error searching pokemons:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    // Debounce search
+    const timeoutId = setTimeout(() => {
+      handleSearch();
+    }, 300);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [searchQuery, currentPage, router]);
+
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Update URL to maintain state on refresh
+    const params = new URLSearchParams();
+    params.set('page', page.toString());
+    if (searchQuery) params.set('search', searchQuery);
+    router.push(`/?${params.toString()}`);
+  }, [searchQuery, router]);
+
+  if (error) {
+    return (
+      <>
+        <Navbar />
+        <Error message={error} />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Navbar />
+      <div className="container mx-auto px-4 py-8">
+        <section className="mb-8 text-center">
+          <h1 className="text-4xl font-bold text-pokemon-dark mb-3">Pokémon Explorer</h1>
+          <p className="text-gray-600">
+            Search and discover your favorite Pokémon from the Pokémon universe
+          </p>
+        </section>
+
+        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+
+        {isLoading && <Loading />}
+        
+        {!isLoading && (
+          <PokemonGrid 
+            pokemons={searchQuery ? filteredPokemons : pokemons} 
+            isLoading={isLoading} 
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+        )}
+
+        {!searchQuery && !isLoading && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        )}
+      </div>
+    </>
   );
 }

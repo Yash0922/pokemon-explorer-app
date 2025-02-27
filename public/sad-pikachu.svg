@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500">
+  <!-- Signature -->
+  <g id="signature" transform="translate(80, 570) scale(0.7)">
+    <path d="M40,20 C35,25 30,40 45,30 C60,20 45,60 30,50" stroke="black" stroke-width="4" fill="none"/>
+    <circle cx="65" cy="35" r="15" stroke="black" stroke-width="4" fill="none"/>
+    <line x1="50" y1="35" x2="80" y2="35" stroke="black" stroke-width="4"/>
+    <line x1="65" y1="20" x2="65" y2="50" stroke="black" stroke-width="4"/>
+  </g>
+  
+  <!-- Main body -->
+  <path d="M300,250 C380,250 400,330 390,380 C380,430 330,450 300,450 C270,450 220,430 210,380 C200,330 220,250 300,250" fill="#FFCB05" stroke="black" stroke-width="6"/>
+  
+  <!-- Brown patches -->
+  <path d="M250,380 C270,385 280,395 260,410" fill="#B5651D" stroke="none"/>
+  <path d="M350,395 C340,385 360,375 370,390" fill="#B5651D" stroke="none"/>
+  <path d="M300,270 C315,275 315,290 300,295 C285,290 285,275 300,270" fill="#B5651D" stroke="none"/>
+  
+  <!-- Left ear -->
+  <path d="M180,120 C130,80 110,50 120,30 C130,10 190,70 240,120" fill="#FFCB05" stroke="black" stroke-width="6"/>
+  <path d="M180,80 C200,70 215,90 210,100" fill="#B5651D" stroke="none"/>
+  
+  <!-- Right ear -->
+  <path d="M420,120 C470,80 490,50 480,30 C470,10 410,70 360,120" fill="#FFCB05" stroke="black" stroke-width="6"/>
+  <path d="M420,80 C400,70 385,90 390,100" fill="#B5651D" stroke="none"/>
+  
+  <!-- Head -->
+  <path d="M300,120 C380,120 420,180 420,220 C420,260 380,300 300,300 C220,300 180,260 180,220 C180,180 220,120 300,120" fill="#FFCB05" stroke="black" stroke-width="6"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="250" cy="190" rx="25" ry="30" fill="black"/>
+  <ellipse cx="350" cy="190" rx="25" ry="30" fill="black"/>
+  
+  <!-- Eye highlights -->
+  <ellipse cx="260" cy="180" rx="10" ry="12" fill="white"/>
+  <ellipse cx="360" cy="180" rx="10" ry="12" fill="white"/>
+  <circle cx="245" cy="195" r="3" fill="white"/>
+  <circle cx="345" cy="195" r="3" fill="white"/>
+  
+  <!-- Tears -->
+  <path d="M240,220 C240,230 230,240 230,250" stroke="#87CEFA" stroke-width="8" stroke-linecap="round"/>
+  <path d="M340,220 C340,230 350,240 350,250" stroke="#87CEFA" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Cheeks -->
+  <circle cx="230" cy="240" r="25" fill="#E3350D"/>
+  <circle cx="370" cy="240" r="25" fill="#E3350D"/>
+  
+  <!-- Nose -->
+  <ellipse cx="300" cy="220" rx="5" ry="3" fill="black"/>
+  
+  <!-- Mouth -->
+  <path d="M290,235 C300,240 310,235" stroke="black" stroke-width="2" fill="none"/>
+  
+  <!-- Line markings -->
+  <path d="M280,140 C285,135 290,145 295,140" stroke="#B5651D" stroke-width="2" fill="none"/>
+  <path d="M310,140 C315,135 320,145 325,140" stroke="#B5651D" stroke-width="2" fill="none"/>
+  <path d="M230,430 C240,410 250,420 255,400" stroke="#B5651D" stroke-width="2" fill="none"/>
+  <path d="M370,430 C360,410 350,420 345,400" stroke="#B5651D" stroke-width="2" fill="none"/>
+  
+  <!-- Tail -->
+  <path d="M390,380 L450,330 L480,310 L520,330 L480,350" fill="#FFCB05" stroke="black" stroke-width="6"/>
+  <path d="M480,350 L500,380 L460,370" fill="#B5651D" stroke="black" stroke-width="6"/>
+  <path d="M460,370 L470,400 L430,390" fill="#7D2811" stroke="black" stroke-width="6"/>
+</svg>
