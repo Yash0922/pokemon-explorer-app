@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import Navbar from '../components/Navbar';
+import Navbar from '@/components/Navbar';
 
 export default function Loading() {
   return (
@@ -11,7 +11,7 @@ export default function Loading() {
           <Image src="/pokeball.svg" alt="Loading" fill priority />
         </div>
         <p className="mt-6 text-2xl font-medium text-gray-700">Loading Pokémon...</p>
-        <p className="mt-2 text-gray-500">Please wait while we catch 'em all!</p>
+        <p className="mt-2 text-gray-500">Please wait while we catch &apos;em all!</p>
       </div>
     </>
   );

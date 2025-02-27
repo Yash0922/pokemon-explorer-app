@@ -1,4 +1,4 @@
-import { PokemonListResponse, PokemonDetail } from '../types/pokemon';
+import { PokemonListResponse, PokemonDetail } from '@/types/pokemon';
 import { defaultFetchOptions, dynamicFetchOptions } from '../utils/cache';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://pokeapi.co/api/v2';

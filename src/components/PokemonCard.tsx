@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Pokemon } from '../types/pokemon';
+import { Pokemon } from '@/types/pokemon';
 
 interface PokemonCardProps {
   pokemon: Pokemon;

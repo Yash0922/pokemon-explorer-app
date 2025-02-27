@@ -5,11 +5,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import Navbar from '../../../components/Navbar';
-import Loading from '../../../components/Loading';
-import Error from '../../../components/Error';
-import { fetchPokemonDetail } from '../../../services/pokemonService';
-import { PokemonDetail } from '../../../types/pokemon';
+import Navbar from '@/components/Navbar';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
+import { fetchPokemonDetail } from '@/services/pokemonService';
+import { PokemonDetail } from '@/types/pokemon';
 
 export default function PokemonDetailPage() {
   const params = useParams();

@@ -13,9 +13,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, setSearchQuery }) =>
   const [isFocused, setIsFocused] = useState(false);
 
   // Debounce function
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   const debounce = useCallback((func: Function, wait: number) => {
     let timeout: NodeJS.Timeout;
-    return (...args: any[]) => {
+    return (...args: unknown[]) => {
       clearTimeout(timeout);
       timeout = setTimeout(() => func(...args), wait);
     };
@@ -23,10 +24,13 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, setSearchQuery }) =>
 
   // Apply debounce to search query updates
   const debouncedSetSearchQuery = useCallback(
-    debounce((value: string) => {
-      setSearchQuery(value);
-    }, 300),
-    [setSearchQuery, debounce]
+    (value: string) => {
+      const debouncedFunction = debounce((value: string) => {
+        setSearchQuery(value);
+      }, 300);
+      debouncedFunction(value);
+    },
+    [setSearchQuery]
   );
 
   // Handle input change with debounce

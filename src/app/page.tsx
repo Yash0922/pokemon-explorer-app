@@ -9,7 +9,7 @@ import Pagination from '../components/Pagination';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import { fetchPokemons, searchPokemons } from '../services/pokemonService';
-import { Pokemon } from '../types/pokemon';
+import { Pokemon } from '@/types/pokemon';
 
 export default function Home() {
   const router = useRouter();

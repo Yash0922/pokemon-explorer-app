@@ -1,6 +1,8 @@
+'use client';
+
 import React from 'react';
 import PokemonCard from './PokemonCard';
-import { Pokemon } from '../types/pokemon';
+import { Pokemon } from '@/types/pokemon';
 
 interface PokemonGridProps {
   pokemons: Pokemon[];
