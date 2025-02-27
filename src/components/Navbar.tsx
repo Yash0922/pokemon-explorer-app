@@ -41,7 +41,11 @@ const Navbar = () => {
                 className="animate-bounce-slow"
               />
             </div>
-            <span className="text-white font-bold text-lg sm:text-xl drop-shadow-md">Pokémon Explorer</span>
+            <span className="hidden sm:inline text-white font-bold text-lg sm:text-xl">
+  Pokémon Explorer
+</span>
+
+
           </Link>
           
           {/* Desktop Navigation links */}
