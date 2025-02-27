@@ -105,7 +105,7 @@ const Navbar = () => {
               Favorites
             </Link>
             <Link 
-              href="https://github.com/yourusername/pokemon-explorer" 
+              href="https://github.com/Yash0922/pokemon-explorer-app.git" 
               target="_blank" 
               rel="noopener noreferrer"
               className="bg-pokemon-yellow hover:bg-yellow-500 text-pokemon-dark px-4 py-2 rounded-full font-bold transition-colors duration-200 text-center"
