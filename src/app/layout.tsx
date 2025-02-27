@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Pokemon Explorer',
   description: 'Explore the world of Pokemon with our interactive web app',
   icons: {
-    icon: '/public/favicon.ico',
+    icon: '/favicon.ico',
   },
 };
 
